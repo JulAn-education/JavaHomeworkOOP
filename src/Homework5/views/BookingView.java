@@ -1,0 +1,70 @@
+package Homework5.views;
+
+import Homework5.models.Table;
+import Homework5.presenters.View;
+import Homework5.presenters.ViewObserver;
+
+import java.util.Collection;
+import java.util.Date;
+
+public class BookingView implements View {
+
+    private ViewObserver observer; // наблюдатель
+
+    /**
+     * Установить наблюдателя, отслеживающего действия пользователя
+     * @param observer наблюдатель
+     */
+    public void setObserver(ViewObserver observer){
+        this.observer = observer;
+    }
+
+
+    /**
+     * Отобразить список всех столиков
+     * @param tables столики
+     */
+    public void showTables(Collection<Table> tables) {
+        for (Table table: tables) {
+            System.out.println(table);
+        }
+
+    }
+
+    /**
+     * Действие клиента (пользователь нажал на кнопку бронь столика)
+     * @param reservationDate дата брони
+     * @param tableNo номер столика
+     * @param name имя клиента
+     */
+    public void reservationTable(Date reservationDate, int tableNo, String name){
+        observer.onReservationTable(reservationDate, tableNo, name);
+    }
+
+    /**
+     * TODO: Доработать метод в рамках ДЗ
+     * Действия клиента (пользователь нажал на кнопку изменения бронирования)
+     * изменение бронирования столика
+     * @param oldReservation старый номер брони
+     * @param reservationDate новая дата бронирования
+     * @param tableNo номер столика
+     * @param name имя клиента
+     */
+    public void changeReservationTable(int oldReservation, Date reservationDate, int tableNo, String name){
+        observer.changeReservationTable(oldReservation, reservationDate, tableNo, name);
+    }
+
+
+    /**
+     * Отобразить результат резерва столика
+     * @param reservationId номер брони
+     */
+    public void showReservationTableStatus(int reservationId){
+        if (reservationId > 0){
+            System.out.printf("Столик зарезервирован.\nНомер брони: #%d\n", reservationId);
+        }
+        else {
+            System.out.println("Ошибка бронирования столика\nПовторите попытку.");
+        }
+    }
+}
